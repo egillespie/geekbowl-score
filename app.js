@@ -20,6 +20,33 @@
             $scope.teamTwo.name = prompt('New Team Name', $scope.teamTwo.name);
         };
 
+        var interval;
+        var buzzer = new Audio("buzzer.mp3");
+
+
+        var createTimer = function(){
+            clearInterval(interval);
+
+            var markup = "&nbsp;";
+            for (var i = 0; i < 19; i++) {
+                markup += "<div class='cell'></div>";
+            }
+            markup += "&nbsp;";
+            $(".counter").html(markup);
+
+            interval = setInterval(function countdown(){
+                if ($(".cell").length) {
+                    $(".cell:first").remove();
+                    $(".cell:last").remove();
+                    if (!$(".cell").length) {
+                        buzzer.play();
+                    }
+                } else {
+                    clearInterval(interval);
+                }
+            }, 900);
+        };
+
         $scope.handleKeypress = function($event){
             switch ($event.keyCode) {
                 case 49: // '1'
@@ -33,6 +60,9 @@
                     break;
                 case 64: // '@'
                     $scope.teamTwo.score--;
+                    break;
+                case 48:
+                    createTimer();
                     break;
             }
         };
