@@ -24,11 +24,11 @@
         var buzzer = new Audio("buzzer.mp3");
 
 
-        var createTimer = function(){
+        var createTimer = function(seconds){
             clearInterval(interval);
 
             var markup = "&nbsp;";
-            for (var i = 0; i < 19; i++) {
+            for (var i = 0; i < (seconds * 2) - 1; i++) {
                 markup += "<div class='cell'></div>";
             }
             markup += "&nbsp;";
@@ -47,6 +47,11 @@
             }, 900);
         };
 
+        var clearTimer = function(){
+            clearInterval(interval);
+            $(".counter").html("&nbsp;&nbsp;");
+        };
+
         $scope.handleKeypress = function($event){
             switch ($event.keyCode) {
                 case 49: // '1'
@@ -61,8 +66,14 @@
                 case 64: // '@'
                     $scope.teamTwo.score--;
                     break;
-                case 48:
-                    createTimer();
+                case 48: // '0'
+                    createTimer(10);
+                    break;
+                case 53: // '5'
+                    createTimer(5);
+                    break;
+                case 45: // '-'
+                    clearTimer();
                     break;
             }
         };
